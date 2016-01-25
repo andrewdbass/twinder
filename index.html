@@ -13,5 +13,8 @@
 	<body ng-controller = "LoginController as loginCtrl">
 		<h1>Twinder</h1>
 		<button ng-click = "login()">Sign in with Twitter</button>
+		<button ng-click = "logout()">Log out</button>
+		<pre>{{userData | json}}</pre>
+	
 	</body>
 </html>
