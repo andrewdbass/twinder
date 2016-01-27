@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.min.js">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
 <!-- Firebase -->
@@ -14,7 +15,7 @@
 		<h1>Twinder</h1>
 		<button ng-click = "login()">Sign in with Twitter</button>
 		<button ng-click = "logout()">Log out</button>
-		<pre>{{userData | json}}</pre>
-	
+		<pre >{{userData | json}}</pre>
+
 	</body>
 </html>
