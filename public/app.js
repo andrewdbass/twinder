@@ -14,9 +14,8 @@ app.controller('LoginController', function( $scope, $window, $timeout, $http, $q
 	});
 
 	$scope.login = function() {
-		authFactory.login().then(function() {
-			console.log("done")
-		})
+		authFactory.login().then()
+		
 	}
 	$scope.logout = authFactory.logout;
 
@@ -31,21 +30,21 @@ app.controller('LoginController', function( $scope, $window, $timeout, $http, $q
 			$scope.timeline = err;
 		})	
 	}
-	
-	
-
 });
 
-app.factory('authFactory', function($timeout,$http){
+app.factory('authFactory', function($timeout,$http,$q){
 	var service = {};
 	
 	service.ref = new Firebase("https://twinder.firebaseio.com");
-	var userData = {};
 	service.login = function(){
-		service.ref.authWithOAuthPopup("twitter",function(error, authData) {
-			return $http.post('/api/tokens?accesToken='+authData.twitter.accessToken+'&accessTokenSecret=321'+authData.twitter.accessTokenSecret).success()
-		});
 		
+		service.ref.authWithOAuthPopup("twitter",function(error, authData) {
+			if(error) 
+			else{
+				return $http.post('/api/tokens?accesToken='+authData.twitter.accessToken+'&accessTokenSecret=321'+authData.twitter.accessTokenSecret)
+			}
+			
+		});
 	}
 	service.logout = function() {
 		service.ref.unauth();
