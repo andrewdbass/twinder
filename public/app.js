@@ -1,6 +1,6 @@
 var app = angular.module('twinder', ["firebase", 'ngResource']);
 
-app.controller('LoginController', function( $scope, $window, $timeout, $http, $q, $resource, authFactory){
+app.controller('AppController', function( $scope, $window, $timeout, $http, $q, $resource, $firebaseArray, authFactory){
 	var ref = new Firebase("https://twinder.firebaseio.com");
 	$scope.userData = authFactory.userData();
 	
@@ -14,21 +14,18 @@ app.controller('LoginController', function( $scope, $window, $timeout, $http, $q
 	});
 
 	$scope.login = function() {
-		authFactory.login().then()
-		
+		authFactory.login().then(function(data){$scope.getTimeline()})	
 	}
-	$scope.logout = authFactory.logout;
 
-	$scope.twitterResult = {};
+	$scope.logout = authFactory.logout;
 
 	$scope.timelineArray = [];
 
-	var getTimeline = function(){
+	$scope.getTimeline = function(){
+		debugger
 		$http.get('/api/getTweets').then(function(data) {
 			$scope.timelineArray = data.data;
-		}, function(err) {
-			$scope.timeline = err;
-		})	
+		}, function(err) {})	
 	}
 });
 
@@ -37,14 +34,16 @@ app.factory('authFactory', function($timeout,$http,$q){
 	
 	service.ref = new Firebase("https://twinder.firebaseio.com");
 	service.login = function(){
-		
+		var defd = $q.defer();
 		service.ref.authWithOAuthPopup("twitter",function(error, authData) {
-			if(error) 
-			else{
-				return $http.post('/api/tokens?accesToken='+authData.twitter.accessToken+'&accessTokenSecret=321'+authData.twitter.accessTokenSecret)
-			}
+			 $http.post('/api/tokens?accessToken='+authData.twitter.accessToken+'&accessTokenSecret='+authData.twitter.accessTokenSecret).then(function(data){
+			 	defd.resolve(data)
+			 }, function(val){
+			 	defd.reject(val)
+			 })
 			
-		});
+		})
+		return defd.promise
 	}
 	service.logout = function() {
 		service.ref.unauth();

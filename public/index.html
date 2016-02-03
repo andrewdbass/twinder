@@ -11,14 +11,14 @@
 
 <script src = "app.js"></script>
 <html ng-app = "twinder">
-	<body ng-controller = "LoginController as loginCtrl">
+	<body ng-controller = "AppController as appCtrl">
 		<h1>Twinder</h1>
 		<button ng-click = "login()">Sign in with Twitter</button>
 		<button ng-click = "logout()">Log out</button>
-		<img ng-src = "{{userData.twitter.profileImageURL}}"/>
-		<pre >{{userData | json}}</pre>
-		<p ng-repeat = 'tweet in timelineArray'>
-			{{tweet.user.screen_name}} said: {{tweet.text}}
+		<button ng-show = "userData" ng-click = "getTimeline()">Refresh Tweets</button>
+		<pre ng-hide = "true">{{userData | json}}</pre>
+		<p ng-repeat = "tweet in timelineArray">
+			@{{tweet.user.screen_name}} {{tweet.text}}
 		</p>
 
 	</body>
