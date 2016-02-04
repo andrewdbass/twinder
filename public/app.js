@@ -34,7 +34,7 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 	$scope.getTimeline = function(){
 		if($scope.lastTweetId){
 			$http.get('/api/getTweets/'+$scope.lastTweetId).then(function(data) {
-				if(data.data.length){
+				if(data.data.length>1){
 					(console.log(data.data))
 					$scope.lastTweetId = data.data[0].id
 					console.log($scope.lastTweetId)
