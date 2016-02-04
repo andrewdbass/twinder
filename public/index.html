@@ -13,13 +13,36 @@
 <html ng-app = "twinder">
 	<body ng-controller = "AppController as appCtrl">
 		<h1>Twinder</h1>
-		<button ng-click = "login()">Sign in with Twitter</button>
-		<button ng-click = "logout()">Log out</button>
+		<button ng-hide = "userData" ng-click = "login()">Sign in with Twitter</button>
+		<button ng-show = "userData" ng-click = "logout()">Log out</button>
 		<button ng-show = "userData" ng-click = "getTimeline()">Refresh Tweets</button>
 		<pre ng-hide = "true">{{userData | json}}</pre>
-		<p ng-repeat = "tweet in timelineArray">
-			@{{tweet.user.screen_name}} {{tweet.text}}
-		</p>
+		<div class = "counter">
+			{{timelineArray.length}}
+		</div>
+		<div ng-show = "timelineArray.length" >
+			<div class = "tweetInfo">
+				<div class = "tweetProfImg">
+					<img ng-src= "{{timelineArray[0].user.profile_image_url}}" alt = "OOps"/>
+				</div>
+				<div class = "tweetHandle">@{{timelineArray[0].user.screen_name}}</div>	
+			</div>
+			<div class = "tweetBody">
+				<p>"{{timelineArray[0].text}}"</p>
+			</div>
+			<div class = "tweetButtons">
+				<button ng-click = "passJudgement(timelineArray[0],false)">dislike</button>
+				<button ng-click = "passJudgement(timelineArray[0],true)">heart</button>
+			</div>
+			
+		</div>
+		<div ng-hide = "timelineArray.length">
+			<p>No new Tweets to show. Congrats!
+		</div>
+		
+		<!-- <p ng-show = "userData" ng-repeat = "tweet in timelineArray">
+			@{{tweet.user.screen_name}} {{tweet.text}} AT: {{tweet.created_at}} its {{tweet.id}}
+		</p> -->
 
 	</body>
 </html>
