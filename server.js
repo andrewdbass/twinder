@@ -37,8 +37,9 @@ app.get('/api/getTweets/:since', function(req, res) {
 		}
 	})
 })
+
 app.get('/api/getTweets/', function(req, res) {
-	T.get('statuses/home_timeline',{count:20}, function(err, data) {
+	T.get('statuses/home_timeline',{count:200}, function(err, data) {
 		if(err){
 			console.log(err)
 			res.end()

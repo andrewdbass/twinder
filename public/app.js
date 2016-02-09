@@ -1,6 +1,9 @@
-var app = angular.module('twinder', ["firebase", 'ngResource']);
+var app = angular.module('twinder', ['firebase', 'ngSanitize']);
 
-app.controller('AppController', function( $scope, $window, $timeout, $http, $q, $resource, $firebaseArray, authFactory){
+app.controller('AppController', function( $scope, $window, $timeout, $http, $q, $firebaseArray, $firebaseObject, $filter, authFactory){
+
+	$scope.testString = $filter('linky')("hi my alternate email is sandeep_giet@yahoo.com .");
+
 	var ref = new Firebase("https://twindertool.firebaseio.com");
 	
 	var timelineRef = new Firebase("https://twindertool.firebaseio.com/home_timeline")
@@ -11,6 +14,13 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 
 	var dislikedRef = new Firebase("https://twindertool.firebaseio.com/disliked_timeline")
 	$scope.dislikedTweets = $firebaseArray(dislikedRef)
+
+	var last = new Firebase("https://twindertool.firebaseio.com/last")
+	var lastObj = $firebaseObject(last)
+	lastObj.$bindTo($scope, "lastOne").then(function(data) {
+		$scope.lastOne.name = "hi"
+		console.log($scope.lastOne)
+	})
 
 	$scope.userData = authFactory.userData();
 	
@@ -29,15 +39,11 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 
 	$scope.logout = authFactory.logout;
 
-	
-	
 	$scope.getTimeline = function(){
-		if($scope.lastTweetId){
-			$http.get('/api/getTweets/'+$scope.lastTweetId).then(function(data) {
-				if(data.data.length>1){
-					(console.log(data.data))
-					$scope.lastTweetId = data.data[0].id
-					console.log($scope.lastTweetId)
+		if(typeof $scope.lastOne.tweetId !== 'undefined'){
+			$http.get('/api/getTweets/'+$scope.lastOne.tweetId).then(function(data) {
+				if(data.data.length>1){	
+					$scope.lastOne.tweetId = data.data[0].id	
 					data.data.reverse().forEach(function(tweet){
 						$scope.timelineArray.$add(tweet)
 					})
@@ -48,15 +54,14 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 		else{
 			$http.get('/api/getTweets/').then(function(data) {
 			if(data.data){
-				$scope.lastTweetId = data.data[0].id
+				$scope.lastOne.tweetId =data.data[0].id
 				data.data.reverse().forEach(function(tweet){
 					$scope.timelineArray.$add(tweet)
 				})
 			}
 			
 		}, function(err) {})
-		}
-			
+		}	
 	}
 	$scope.passJudgement = function(tweet, liked){
 		if(liked){
@@ -66,6 +71,10 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 			$scope.dislikedTweets.$add(tweet)
 		}
 		$scope.timelineArray.$remove($scope.timelineArray[0])
+	}
+	$scope.showLikedTweets = false;
+	$scope.toggleLikedTweets = function(){
+		$scope.showLikedTweets = !$scope.showLikedTweets
 	}
 });
 

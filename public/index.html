@@ -3,6 +3,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.7/angular-resource.min.js">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular-sanitize.js"></script>
 
 <!-- Firebase -->
 <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
@@ -12,7 +13,9 @@
 <script src = "app.js"></script>
 <html ng-app = "twinder">
 	<body ng-controller = "AppController as appCtrl">
-		<h1>Twinder</h1>
+		<div class = "page-header">
+			<h1 >Twinder</h1>	
+		</div>
 		<button ng-hide = "userData" ng-click = "login()">Sign in with Twitter</button>
 		<button ng-show = "userData" ng-click = "logout()">Log out</button>
 		<button ng-show = "userData" ng-click = "getTimeline()">Refresh Tweets</button>
@@ -28,7 +31,8 @@
 				<div class = "tweetHandle">@{{timelineArray[0].user.screen_name}}</div>	
 			</div>
 			<div class = "tweetBody">
-				<p>"{{timelineArray[0].text}}"</p>
+				<p ng-bind-html = "timelineArray[0].text | linky"></p>
+				<img ng-show = "timelineArray[0].entities.media[0].media_url !== ''" ng-src = "{{timelineArray[0].entities.media[0].media_url}}"/>
 			</div>
 			<div class = "tweetButtons">
 				<button ng-click = "passJudgement(timelineArray[0],false)">dislike</button>
@@ -40,9 +44,24 @@
 			<p>No new Tweets to show. Congrats!
 		</div>
 		
+		<button ng-click = "toggleLikedTweets()">Toggle Liked Tweets</button>
+
+		<div ng-show = "showLikedTweets" ng-repeat = "tweet in likedTweets">
+			<div class = "tweetInfo">
+				<div class = "tweetProfImg">
+					<img ng-src= "{{tweet.user.profile_image_url}}" alt = "OOps"/>
+				</div>
+				<div class = "tweetHandle">@{{tweet.user.screen_name}}</div>	
+			</div>
+			<div class = "tweetBody">
+				<p ng-bind-html = "tweet.text | linky"></p>
+				<img ng-src = "{{tweet.entities.media[0].media_url}}"/>
+			</div>
+		</div>
+
 		<!-- <p ng-show = "userData" ng-repeat = "tweet in timelineArray">
 			@{{tweet.user.screen_name}} {{tweet.text}} AT: {{tweet.created_at}} its {{tweet.id}}
 		</p> -->
-
+		<!-- <pre>{{likedTweets[likedTweets.length-1] | json}}</pre> -->
 	</body>
 </html>
