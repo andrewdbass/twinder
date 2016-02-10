@@ -102,3 +102,22 @@ app.factory('authFactory', function($timeout,$http,$q){
 	}
 	return service;
 });
+
+app.directive("timeline", function() {
+	return {
+		restrict: 'E',
+		templateUrl: "templates/timeline.html"
+	}
+});
+app.directive("navbar", function() {
+	return {
+		restrict: 'E',
+		templateUrl: "templates/navbar.html"
+	}
+});
+app.directive("approved", function() {
+	return {
+		restrict: 'E',
+		templateUrl: "templates/approvedFeed.html"
+	}
+});
