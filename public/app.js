@@ -39,6 +39,26 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 
 	$scope.logout = authFactory.logout;
 
+	$scope.likeTweet = function(tweet){
+		tweet.favorited = true
+		$scope.likedTweets.$save(tweet)
+		$http.post('/api/favoriteTweet/'+tweet.id_str).then(function(data){
+		}, 
+		function(err){
+			console.log(err)
+		})
+	}
+	$scope.unlikeTweet = function(tweet){
+		tweet.favorited = false
+		$scope.likedTweets.$save(tweet)
+		$http.post('/api/unfavoriteTweet/'+tweet.id_str).then(function(data){
+		}, 
+		function(err){
+			console.log(err)
+		})
+	}		
+
+
 	$scope.getTimeline = function(){
 		if(typeof $scope.lastOne.tweetId !== 'undefined'){
 			$http.get('/api/getTweets/'+$scope.lastOne.tweetId).then(function(data) {

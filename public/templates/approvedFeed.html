@@ -6,7 +6,6 @@
 		<div class = "tweetHandle col-xs-10">
 			<a  class = "tweet-handle-link" ng-href ="{{'http://www.twitter.com/'+ tweet.user.screen_name }}">@{{tweet.user.screen_name}}</a>
 		</div>
-		<a ng-href ="http://www.twitter.com/{{twitter.user.screen_name}}">here</a>
 	</div>
 	<div class = "tweetBody">
 		<p ng-bind-html = "tweet.text | linky"></p>
@@ -15,6 +14,7 @@
 	<div class = "interaction-buttons">
 		<button class = "btn btn-primary glyphicon glyphicon-share-alt"></button>
 		<button class = "btn btn-info glyphicon glyphicon-refresh" ></button>
-		<button class = "btn btn-danger glyphicon glyphicon-heart-empty"></button>
+		<button ng-hide = "tweet.favorited" ng-click = "likeTweet(tweet)" class = "btn btn-danger glyphicon glyphicon-heart-empty"></button>
+		<button ng-show = "tweet.favorited" ng-click = "unlikeTweet(tweet)" class = "btn btn-danger glyphicon glyphicon-heart"></button>
 	</div>
 </div>

@@ -50,5 +50,31 @@ app.get('/api/getTweets/', function(req, res) {
 		}
 	})
 })
-
+//favorite a tweet
+app.post('/api/favoriteTweet/:tweetId', function(req, res) {
+	console.log(req.params.tweetId)
+	T.post('favorites/create',{id: req.params.tweetId}, function(err, data) {
+		if(err){
+			console.log(err)
+			res.end()
+		}
+		else{
+			res.send(data)
+			res.end()
+		}
+	})
+})
+app.post('/api/unfavoriteTweet/:tweetId', function(req, res) {
+	console.log(req.params.tweetId)
+	T.post('favorites/destroy',{id: req.params.tweetId}, function(err, data) {
+		if(err){
+			console.log(err)
+			res.end()
+		}
+		else{
+			res.send(data)
+			res.end()
+		}
+	})
+})
 app.listen(8080);
