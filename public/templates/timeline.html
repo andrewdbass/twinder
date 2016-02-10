@@ -1,0 +1,37 @@
+<div ng-show = "userData">
+	<div class = "tweet" ng-show = "timelineArray.length" >
+		<div class = "tweetInfo row">
+			<div class = "tweetProfImg col-xs-1">
+				<img class = "profile-picture" ng-src= "{{timelineArray[0].user.profile_image_url}}"  alt = "OOps"/>
+			</div>
+			<div class = "tweetHandle col-xs-10">
+				<a ng-href = "{{'http://www.twitter.com/'+timelineArray[0].user.screen_name}}"class = "tweet-handle-link">@{{timelineArray[0].user.screen_name}}</a>
+			</div>	
+			<div class = "counter col-xs-1">
+				{{timelineArray.length}} left
+			</div>
+		</div>
+		<div class = "tweetBody">
+			<p ng-bind-html = "timelineArray[0].text | linky"></p>
+			<img ng-show = "timelineArray[0].entities.media[0]" ng-src = "{{timelineArray[0].entities.media[0].media_url}}"/>
+		</div>
+		<div class = "tweetButtons row">
+			<button class = "btn btn-danger col-xs-6 glyphicon glyphicon-remove" ng-click = "passJudgement(timelineArray[0],false)"></button>
+			<button class = "btn btn-primary twitter-blue col-xs-6 glyphicon glyphicon-ok" ng-click = "passJudgement(timelineArray[0],true)"></button>
+		</div>			
+	</div>
+	<div class = "empty-timeline row" ng-show = "timelineArray.length<1">
+		<div class = "empty-message text-center">No new Tweets to show. Congrats!</div>
+		<div class = "row">
+			<div class = "col-xs-1"></div>
+			<button  class = "btn btn-primary empty-timeline-btn twitter-blue empty-btn col-xs-10" ng-click = "getTimeline()">Refresh Timeline</button>
+			<div class = "col-xs-1"></div>
+		</div>
+		<div class = "row">
+			<div class = "col-xs-1"></div>
+			<a href = "approved_tweets.html"><button class = "btn btn-primary empty-timeline-btn col-xs-10">Go to Approved Tweets</button></a>
+			<div class = "col-xs-1"></div>
+		</div>
+		
+	</div>
+</div>

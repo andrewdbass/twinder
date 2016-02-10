@@ -1,0 +1,20 @@
+<div  class = "tweet" ng-repeat = "tweet in likedTweets| orderBy:'':true">
+	<div class = "tweetInfo row">
+		<div class = "tweetProfImg col-xs-1">
+			<img class = "profile-picture" ng-src= "{{tweet.user.profile_image_url}}"  alt = "OOps"/>
+		</div>
+		<div class = "tweetHandle col-xs-10">
+			<a  class = "tweet-handle-link" ng-href ="{{'http://www.twitter.com/'+ tweet.user.screen_name }}">@{{tweet.user.screen_name}}</a>
+		</div>
+		<a ng-href ="http://www.twitter.com/{{twitter.user.screen_name}}">here</a>
+	</div>
+	<div class = "tweetBody">
+		<p ng-bind-html = "tweet.text | linky"></p>
+		<img ng-show = "tweet.entities.media[0]" ng-src = "{{tweet.entities.media[0].media_url}}"/>
+	</div>
+	<div class = "interaction-buttons">
+		<button class = "btn btn-primary glyphicon glyphicon-share-alt"></button>
+		<button class = "btn btn-info glyphicon glyphicon-refresh" ></button>
+		<button class = "btn btn-danger glyphicon glyphicon-heart-empty"></button>
+	</div>
+</div>

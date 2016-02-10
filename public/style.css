@@ -1,0 +1,90 @@
+#navbar{
+	background-color: #ffbb00; 
+	padding: 5px;
+}
+#navbar button{
+	margin-left: 5%;
+}
+#navbar h1{
+	font-size: 75px;
+}
+body{
+	background-color: #E8E8E8;
+}
+.tweet{
+	background-color: white;
+	margin-top:2%;
+}
+.tweetInfo{
+	background-color:#1B9BE9;
+	padding:5px;
+}
+.tweetProfImg{
+	/*padding-left: 25px*/
+}
+.profile-picture{
+	margin-left:25%;
+	border: 3px white solid;
+}
+.tweetHandle{
+	color:white;
+	font-weight: strong;
+	font-size: 40px;
+}
+.counter{
+	color:white;
+	font-size: 20px;
+}
+.tweetBody{
+	font-size: 30px;
+	padding:20px;
+}
+.glyphicon {
+    font-size: 30px;
+}
+.twitter-blue{
+	background-color:#1B9BE9;
+	color:white;
+}
+.empty-timeline{
+	margin-top:2%;
+	padding: 10px;
+	background-color: white;
+	font-size: 30px;
+}
+.empty-message{
+	padding: 10px;
+}
+.empty-timeline-btn{
+	font-size:30px;
+	margin-top: 10px;
+}
+.signin-btn{
+	font-size:30px;
+	
+	margin-top: 50px;
+}
+.logout-btn{
+	margin-right: 10px;*/
+}
+.interaction-buttons{
+	margin-left: 20px;
+	padding-bottom:2%;
+
+}
+.title-link{
+	text-decoration : none; 
+	color : #000000;
+}
+.title-link:hover{
+	text-decoration : none; 
+	color : #000000;
+}
+.tweet-handle-link{
+	text-decoration : none; 
+	color : white;
+}
+.tweet-handle-link:hover{
+	text-decoration : none; 
+	color : white;
+}
