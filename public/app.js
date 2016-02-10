@@ -160,3 +160,9 @@ app.directive("approved", function() {
 		templateUrl: "templates/approvedFeed.html"
 	}
 });
+app.directive("compose", function() {
+	return {
+		restrict: 'E',
+		templateUrl: "templates/compose.html"
+	}
+});
