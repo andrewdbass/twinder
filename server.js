@@ -77,4 +77,34 @@ app.post('/api/unfavoriteTweet/:tweetId', function(req, res) {
 		}
 	})
 })
+//retweet
+app.post('/api/retweet/:tweetId', function(req, res) {
+	console.log(req.params.tweetId)
+	T.post('statuses/retweet',{id: req.params.tweetId}, function(err, data) {
+		if(err){
+			console.log(err)
+			res.end()
+		}
+		else{
+			res.send(data)
+			res.end()
+		}
+	})
+})
+//unretweet
+app.post('/api/unretweet/:tweetId', function(req, res) {
+	console.log(req.params.tweetId)
+	T.post('statuses/unretweet',{id: req.params.tweetId}, function(err, data) {
+		if(err){
+			console.log(err)
+			res.end()
+		}
+		else{
+			res.send(data)
+			res.end()
+		}
+	})
+})
+
+
 app.listen(8080);

@@ -8,13 +8,17 @@
 		</div>
 	</div>
 	<div class = "tweetBody">
+		<!-- <pre>{{tweet | json}}</pre> -->
 		<p ng-bind-html = "tweet.text | linky"></p>
 		<img ng-show = "tweet.entities.media[0]" ng-src = "{{tweet.entities.media[0].media_url}}"/>
 	</div>
 	<div class = "interaction-buttons">
 		<button class = "btn btn-primary glyphicon glyphicon-share-alt"></button>
-		<button class = "btn btn-info glyphicon glyphicon-refresh" ></button>
+		
+		<button ng-hide = "tweet.retweeted" ng-click = "retweet(tweet)" class = "btn btn-info glyphicon glyphicon-refresh" ></button>
+		<button ng-show = "tweet.retweeted" ng-click = "unretweet(tweet)" class = "btn btn-success glyphicon glyphicon-refresh" ></button>
+
 		<button ng-hide = "tweet.favorited" ng-click = "likeTweet(tweet)" class = "btn btn-danger glyphicon glyphicon-heart-empty"></button>
-		<button ng-show = "tweet.favorited" ng-click = "unlikeTweet(tweet)" class = "btn btn-danger glyphicon glyphicon-heart"></button>
+		<button ng-show = "tweet.favorited" ng-click = "unlikeTweet(tweet)" class = "btn btn-success glyphicon glyphicon-heart"></button>
 	</div>
 </div>

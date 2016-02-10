@@ -38,7 +38,26 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 	}
 
 	$scope.logout = authFactory.logout;
-
+	//retweet
+	$scope.retweet = function(tweet){
+		tweet.retweeted = true
+		$scope.likedTweets.$save(tweet)
+		$http.post('/api/retweet/'+tweet.id_str).then(function(data){
+		}, 
+		function(err){
+			console.log(err)
+		})
+	}
+	//unretweet
+	$scope.unretweet = function(tweet){
+		tweet.retweeted = false
+		$scope.likedTweets.$save(tweet)
+		$http.post('/api/unretweet/'+tweet.id_str).then(function(data){
+		}, 
+		function(err){
+			console.log(err)
+		})
+	}
 	$scope.likeTweet = function(tweet){
 		tweet.favorited = true
 		$scope.likedTweets.$save(tweet)
