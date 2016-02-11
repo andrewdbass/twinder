@@ -38,6 +38,17 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 	}
 
 	$scope.logout = authFactory.logout;
+	$scope.composeTweetText = ""
+	$scope.sendTweet = function(){
+		$http.post("/api/tweet/"+$scope.composeTweetText).then(function(data){
+			$scope.showCompose = false
+			$scope.composeTweetText = ""
+		}, 
+		function(err){
+			console.log(err)
+		})
+
+	}
 	//retweet
 	$scope.retweet = function(tweet){
 		tweet.retweeted = true
@@ -115,6 +126,12 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 	$scope.toggleLikedTweets = function(){
 		$scope.showLikedTweets = !$scope.showLikedTweets
 	}
+	$scope.showCompose = false
+	$scope.toggleCompose = function() {
+		$scope.showCompose = !$scope.showCompose
+	}
+
+
 });
 
 app.factory('authFactory', function($timeout,$http,$q){

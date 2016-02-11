@@ -38,6 +38,18 @@ app.get('/api/getTweets/:since', function(req, res) {
 	})
 })
 
+app.post('/api/tweet/:statusText', function(req, res){
+	T.post('statuses/update',{status: req.params.statusText}, function(err, data){
+		if(err){
+			console.log(err)
+			res.end()
+		}
+		else{
+			res.end()
+		}
+	})
+})
+
 app.get('/api/getTweets/', function(req, res) {
 	T.get('statuses/home_timeline',{count:200}, function(err, data) {
 		if(err){
