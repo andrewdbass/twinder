@@ -13,7 +13,7 @@
 		<img ng-show = "tweet.entities.media[0]" ng-src = "{{tweet.entities.media[0].media_url}}"/>
 	</div>
 	<div class = "interaction-buttons">
-		<button class = "btn btn-primary glyphicon glyphicon-share-alt"></button>
+		<button ng-click = "toggleReply(tweet.user.screen_name)" class = "btn btn-primary glyphicon glyphicon-share-alt"></button>
 		
 		<button ng-hide = "tweet.retweeted" ng-click = "retweet(tweet)" class = "btn btn-info glyphicon glyphicon-refresh" ></button>
 		<button ng-show = "tweet.retweeted" ng-click = "unretweet(tweet)" class = "btn btn-success glyphicon glyphicon-refresh" ></button>

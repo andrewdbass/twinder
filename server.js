@@ -49,6 +49,18 @@ app.post('/api/tweet/:statusText', function(req, res){
 		}
 	})
 })
+//reply
+app.post("/api/reply/:replyToId/:statusText", function(req, res) {
+	T.post('statuses/update', {in_reply_to_status_id: req.params.replyToId, status: req.params.statusText}, function(err, data){
+		if(err){
+			console.log(err)
+			res.end()
+		}
+		else{
+			res.end()
+		}
+	})
+})
 
 app.get('/api/getTweets/', function(req, res) {
 	T.get('statuses/home_timeline',{count:200}, function(err, data) {

@@ -41,8 +41,27 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 	$scope.composeTweetText = ""
 	$scope.sendTweet = function(){
 		$http.post("/api/tweet/"+$scope.composeTweetText).then(function(data){
-			$scope.showCompose = false
+			$scope.toggleCompose()
 			$scope.composeTweetText = ""
+		}, 
+		function(err){
+			console.log(err)
+		})
+
+	}
+	$scope.showReply = false
+	$scope.toggleReply = function(username) {
+		$scope.showReply = !$scope.showReply
+		if(username){
+			$scope.composeTweetText = "@"+username
+		}
+	}
+	$scope.reply = function(id){
+		debugger
+		$http.post("/api/reply/"+$scope.relpyToId+"/"+$scope.composeTweetText).then(function(data){
+			$scope.toggleReply()
+			$scope.composeTweetText = ""
+			$scope.relpyToId= ""
 		}, 
 		function(err){
 			console.log(err)
@@ -183,3 +202,9 @@ app.directive("compose", function() {
 		templateUrl: "templates/compose.html"
 	}
 });
+app.directive('reply', function() {
+	return{
+		restrict: 'E',
+		templateUrl: "templates/reply.html"
+	}
+})
