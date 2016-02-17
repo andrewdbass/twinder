@@ -2,22 +2,30 @@ var app = angular.module('twinder', ['firebase', 'ngSanitize', 'infinite-scroll'
 
 app.controller('AppController', function( $scope, $window, $timeout, $http, $q, $firebaseArray, $firebaseObject, $filter, authFactory){
 
-	$scope.testString = $filter('linky')("hi my alternate email is sandeep_giet@yahoo.com .");
 
-	var ref = new Firebase("https://twindertool.firebaseio.com");
+
 	
-	var timelineRef = new Firebase("https://twindertool.firebaseio.com/home_timeline")
+	/*var timelineRef = new Firebase("https://twindertool.firebaseio.com/home_timeline")
 	$scope.timelineArray = $firebaseArray(timelineRef);
 
 	var likedRef = new Firebase("https://twindertool.firebaseio.com/liked_timeline")
 	$scope.likedTweets = $firebaseArray(likedRef)
 	$scope.likedTweets.$loaded().then(function(data) {
 		$scope.likedTweetsFeed = []
-		for(var i = $scope.likedTweets.length-1; i>$scope.likedTweets.length-31; i--){
-			$scope.likedTweetsFeed.push($scope.likedTweets[i])
-			$scope.feedIndex = i
-			
+		if($scope.likedTweets.length<31){
+			for(var i = $scope.likedTweets.length-1; i>-1; i--){
+				$scope.likedTweetsFeed.push($scope.likedTweets[i])
+			}
+			$scope.feedIndex = 0	
 		}
+		else{
+			for(var i = $scope.likedTweets.length-1; i>$scope.likedTweets.length-31; i--){
+				$scope.likedTweetsFeed.push($scope.likedTweets[i])
+				$scope.feedIndex = i
+				
+			}
+		}
+		
 	})
 
 	var dislikedRef = new Firebase("https://twindertool.firebaseio.com/disliked_timeline")
@@ -25,7 +33,7 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 
 	var last = new Firebase("https://twindertool.firebaseio.com/last")
 	var lastObj = $firebaseObject(last)
-	lastObj.$bindTo($scope, "lastOne").then(function(data) {})
+	lastObj.$bindTo($scope, "lastOne").then(function(data) {})*/
 
 	$scope.userData = authFactory.userData();
 	
@@ -35,11 +43,49 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 		//this next part makes the data auto load
 		$timeout(function() {
 	       $scope.$apply();
-	    }, 500);				
+	    }, 500).then(function(data){
+	    	if(authData){
+	    		console.log($scope.userData.twitter.username)
+		    	var timelineRef = new Firebase("https://twindertool.firebaseio.com/home_timeline")
+				$scope.timelineArray = $firebaseArray(timelineRef);
+
+				var likedRef = new Firebase("https://twindertool.firebaseio.com/liked_timeline")
+				$scope.likedTweets = $firebaseArray(likedRef)
+				$scope.likedTweets.$loaded().then(function(data) {
+					$scope.likedTweetsFeed = []
+					if($scope.likedTweets.length<31){
+						for(var i = $scope.likedTweets.length-1; i>-1; i--){
+							$scope.likedTweetsFeed.push($scope.likedTweets[i])
+						}
+						$scope.feedIndex = 0	
+					}
+					else{
+						for(var i = $scope.likedTweets.length-1; i>$scope.likedTweets.length-31; i--){
+							$scope.likedTweetsFeed.push($scope.likedTweets[i])
+							$scope.feedIndex = i
+							
+						}
+					}
+					
+				})
+
+				var dislikedRef = new Firebase("https://twindertool.firebaseio.com/disliked_timeline")
+				$scope.dislikedTweets = $firebaseArray(dislikedRef)
+
+				var last = new Firebase("https://twindertool.firebaseio.com/last")
+				var lastObj = $firebaseObject(last)
+				lastObj.$bindTo($scope, "lastOne").then(function(data) {
+					$scope.getTimeline()
+				})
+
+	    	}
+	    })				
 	})
 
 	$scope.login = function() {
-		authFactory.login().then(function(data){$scope.getTimeline()})	
+		authFactory.login().then(function(data){
+			
+		})	
 	}
 
 	$scope.logout = authFactory.logout;

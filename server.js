@@ -26,7 +26,7 @@ app.post('/api/tokens', function(req, res) {
 
 app.get('/api/getTweets/:since', function(req, res) {
 	console.log(req.params.since)
-	T.get('statuses/home_timeline',{count:20, since_id:req.params.since}, function(err, data) {
+	T.get('statuses/home_timeline',{count:200, since_id:req.params.since}, function(err, data) {
 		if(err){
 			console.log(err)
 			res.end()
@@ -63,7 +63,7 @@ app.post("/api/reply/:replyToId/:statusText", function(req, res) {
 })
 
 app.get('/api/getTweets/', function(req, res) {
-	T.get('statuses/home_timeline',{count:200}, function(err, data) {
+	T.get('statuses/home_timeline',{count:20}, function(err, data) {
 		if(err){
 			console.log(err)
 			res.end()
