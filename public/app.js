@@ -45,11 +45,11 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 	       $scope.$apply();
 	    }, 500).then(function(data){
 	    	if(authData){
-	    		console.log($scope.userData.twitter.username)
-		    	var timelineRef = new Firebase("https://twindertool.firebaseio.com/home_timeline")
+	    		var username = $scope.userData.twitter.username
+		    	var timelineRef = new Firebase("https://twindertool.firebaseio.com/"+username+"/home_timeline")
 				$scope.timelineArray = $firebaseArray(timelineRef);
 
-				var likedRef = new Firebase("https://twindertool.firebaseio.com/liked_timeline")
+				var likedRef = new Firebase("https://twindertool.firebaseio.com/"+username+"/liked_timeline")
 				$scope.likedTweets = $firebaseArray(likedRef)
 				$scope.likedTweets.$loaded().then(function(data) {
 					$scope.likedTweetsFeed = []
@@ -69,10 +69,10 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 					
 				})
 
-				var dislikedRef = new Firebase("https://twindertool.firebaseio.com/disliked_timeline")
+				var dislikedRef = new Firebase("https://twindertool.firebaseio.com/"+username+"/disliked_timeline")
 				$scope.dislikedTweets = $firebaseArray(dislikedRef)
 
-				var last = new Firebase("https://twindertool.firebaseio.com/last")
+				var last = new Firebase("https://twindertool.firebaseio.com/"+username+"/last")
 				var lastObj = $firebaseObject(last)
 				lastObj.$bindTo($scope, "lastOne").then(function(data) {
 					$scope.getTimeline()
