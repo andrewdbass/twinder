@@ -1,4 +1,4 @@
-var app = angular.module('twinder', ['firebase', 'ngSanitize']);
+var app = angular.module('twinder', ['firebase', 'ngSanitize', 'infinite-scroll']);
 
 app.controller('AppController', function( $scope, $window, $timeout, $http, $q, $firebaseArray, $firebaseObject, $filter, authFactory){
 
@@ -11,6 +11,15 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 
 	var likedRef = new Firebase("https://twindertool.firebaseio.com/liked_timeline")
 	$scope.likedTweets = $firebaseArray(likedRef)
+	$scope.likedTweets.$loaded().then(function(data) {
+		$scope.likedTweetsFeed = []
+		for(var i = $scope.likedTweets.length-1; i>$scope.likedTweets.length-31; i--){
+			$scope.likedTweetsFeed.push($scope.likedTweets[i])
+			//console.log($scope.likedTweets[i])
+			$scope.feedIndex = i
+			console.log(i)
+		}
+	})
 
 	var dislikedRef = new Firebase("https://twindertool.firebaseio.com/disliked_timeline")
 	$scope.dislikedTweets = $firebaseArray(dislikedRef)
@@ -153,7 +162,27 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 	$scope.toggleCompose = function() {
 		$scope.showCompose = !$scope.showCompose
 	}
-
+	//adds tweets to Feed with Infinite Scroll
+	$scope.addTweets = function(){
+		if($scope.feedIndex>0){
+			if($scope.feedIndex>20){
+				var n = 20
+				while(n--){
+					$scope.feedIndex--
+					$scope.likedTweetsFeed.push($scope.likedTweets[$scope.feedIndex])
+					console.log($scope.feedIndex)
+				}
+			}
+			else{
+				var n = $scope.feedIndex
+				while(n--){
+					$scope.feedIndex--
+					$scope.likedTweetsFeed.push($scope.likedTweets[$scope.feedIndex])
+					console.log($scope.feedIndex)
+				}
+			}
+		}	
+	}
 
 });
 
