@@ -1,3 +1,4 @@
 <div ng-hide = "showCompose ||  showReply" ng-click = "toggleCompose()" class = "glyphicon glyphicon-pencil new-tweet-button text-center"></div>
 <textarea  ng-model = "composeTweetText" ng-show = "showCompose" class = "tweet-textarea"  maxlength="140"></textarea>
 <button ng-show = "showCompose" ng-click = "sendTweet()" class = "btn btn-primary twitter-blue send-tweet-button glyphicon glyphicon-send"></button>
+<button ng-show = "showCompose" ng-click = "toggleCompose()" class = "btn btn-danger cancel-tweet-button glyphicon glyphicon-trash"></button>

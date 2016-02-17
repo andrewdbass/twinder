@@ -15,9 +15,8 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 		$scope.likedTweetsFeed = []
 		for(var i = $scope.likedTweets.length-1; i>$scope.likedTweets.length-31; i--){
 			$scope.likedTweetsFeed.push($scope.likedTweets[i])
-			//console.log($scope.likedTweets[i])
 			$scope.feedIndex = i
-			console.log(i)
+			
 		}
 	})
 
@@ -26,10 +25,7 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 
 	var last = new Firebase("https://twindertool.firebaseio.com/last")
 	var lastObj = $firebaseObject(last)
-	lastObj.$bindTo($scope, "lastOne").then(function(data) {
-		$scope.lastOne.name = "hi"
-		console.log($scope.lastOne)
-	})
+	lastObj.$bindTo($scope, "lastOne").then(function(data) {})
 
 	$scope.userData = authFactory.userData();
 	
@@ -170,7 +166,6 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 				while(n--){
 					$scope.feedIndex--
 					$scope.likedTweetsFeed.push($scope.likedTweets[$scope.feedIndex])
-					console.log($scope.feedIndex)
 				}
 			}
 			else{
@@ -178,7 +173,6 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 				while(n--){
 					$scope.feedIndex--
 					$scope.likedTweetsFeed.push($scope.likedTweets[$scope.feedIndex])
-					console.log($scope.feedIndex)
 				}
 			}
 		}	

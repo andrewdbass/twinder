@@ -115,3 +115,8 @@ body{
 	left:76%;
 	top: 80%;
 }
+.cancel-tweet-button{
+	position: fixed;
+	left: 22%;
+	top: 80%;
+}
