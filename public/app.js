@@ -38,7 +38,7 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 	}
 
 	$scope.logout = authFactory.logout;
-	$scope.composeTweetText = ""
+	$scope.composeTweetText
 	$scope.sendTweet = function(){
 		$http.post("/api/tweet/"+$scope.composeTweetText).then(function(data){
 			$scope.toggleCompose()
@@ -50,15 +50,19 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 
 	}
 	$scope.showReply = false
-	$scope.toggleReply = function(username) {
+	$scope.toggleReply = function(tweet) {
 		$scope.showReply = !$scope.showReply
-		if(username){
-			$scope.composeTweetText = "@"+username
+		if(tweet){
+			$scope.replyTweetId = tweet.id_str
+			if(tweet.user.screen_name){
+				$scope.composeTweetText = "@"+tweet.user.screen_name
+			}
 		}
 	}
-	$scope.reply = function(id){
-		debugger
-		$http.post("/api/reply/"+$scope.relpyToId+"/"+$scope.composeTweetText).then(function(data){
+
+	$scope.reply = function(){
+		//console.log($scope.replyTweetId)
+		$http.post("/api/reply/"+$scope.replyTweetId+"/"+$scope.composeTweetText).then(function(data){
 			$scope.toggleReply()
 			$scope.composeTweetText = ""
 			$scope.relpyToId= ""
