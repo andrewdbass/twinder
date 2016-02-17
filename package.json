@@ -1,0 +1,32 @@
+{
+  "name": "twinder",
+  "version": "1.0.0",
+  "description": "twitter feed tool",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.13.4",
+    "twit": "^2.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrewdbass/twinder.git"
+  },
+  "keywords": [
+    "twitter"
+  ],
+  "author": "AndrewDBass",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrewdbass/twinder/issues"
+  },
+  "engines": {
+    "node": "5.4.1"
+  }
+  
+
+}
