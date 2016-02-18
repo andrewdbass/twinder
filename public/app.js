@@ -87,11 +87,10 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 			
 		})	
 	}
-
 	$scope.logout = authFactory.logout;
 	$scope.composeTweetText
 	$scope.sendTweet = function(){
-		$http.post("/api/tweet/"+$scope.composeTweetText).then(function(data){
+		$http.post("/api/tweet/"+$scope.userData.twitter.username+"/"+$scope.composeTweetText).then(function(data){
 			$scope.toggleCompose()
 			$scope.composeTweetText = ""
 		}, 
@@ -113,7 +112,7 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 
 	$scope.reply = function(){
 		//console.log($scope.replyTweetId)
-		$http.post("/api/reply/"+$scope.replyTweetId+"/"+$scope.composeTweetText).then(function(data){
+		$http.post("/api/reply/"+$scope.userData.twitter.username+"/"+$scope.replyTweetId+"/"+$scope.composeTweetText).then(function(data){
 			$scope.toggleReply()
 			$scope.composeTweetText = ""
 			$scope.relpyToId= ""
@@ -127,7 +126,7 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 	$scope.retweet = function(tweet){
 		tweet.retweeted = true
 		$scope.likedTweets.$save(tweet)
-		$http.post('/api/retweet/'+tweet.id_str).then(function(data){
+		$http.post('/api/retweet/'+$scope.userData.twitter.username+"/"+tweet.id_str).then(function(data){
 		}, 
 		function(err){
 			console.log(err)
@@ -137,7 +136,7 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 	$scope.unretweet = function(tweet){
 		tweet.retweeted = false
 		$scope.likedTweets.$save(tweet)
-		$http.post('/api/unretweet/'+tweet.id_str).then(function(data){
+		$http.post('/api/unretweet/'+$scope.userData.twitter.username+"/"+tweet.id_str).then(function(data){
 		}, 
 		function(err){
 			console.log(err)
@@ -146,7 +145,7 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 	$scope.likeTweet = function(tweet){
 		tweet.favorited = true
 		$scope.likedTweets.$save(tweet)
-		$http.post('/api/favoriteTweet/'+tweet.id_str).then(function(data){
+		$http.post('/api/favoriteTweet/'+$scope.userData.twitter.username+"/"+tweet.id_str).then(function(data){
 		}, 
 		function(err){
 			console.log(err)
@@ -155,7 +154,7 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 	$scope.unlikeTweet = function(tweet){
 		tweet.favorited = false
 		$scope.likedTweets.$save(tweet)
-		$http.post('/api/unfavoriteTweet/'+tweet.id_str).then(function(data){
+		$http.post('/api/unfavoriteTweet/'+$scope.userData.twitter.username+"/"+tweet.id_str).then(function(data){
 		}, 
 		function(err){
 			console.log(err)
@@ -165,7 +164,7 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 
 	$scope.getTimeline = function(){
 		if(typeof $scope.lastOne.tweetId !== 'undefined'){
-			$http.get('/api/getTweets/'+$scope.lastOne.tweetId).then(function(data) {
+			$http.get('/api/getTweets/'+$scope.userData.twitter.username+"/"+$scope.lastOne.tweetId).then(function(data) {
 				if(data.data.length>1){	
 					$scope.lastOne.tweetId = data.data[0].id	
 					data.data.reverse().forEach(function(tweet){
@@ -176,7 +175,7 @@ app.controller('AppController', function( $scope, $window, $timeout, $http, $q, 
 			}, function(err) {})
 		}
 		else{
-			$http.get('/api/getTweets/').then(function(data) {
+			$http.get('/api/getTweets/'+$scope.userData.twitter.username+"/").then(function(data) {
 			if(data.data){
 				$scope.lastOne.tweetId =data.data[0].id
 				data.data.reverse().forEach(function(tweet){
@@ -233,7 +232,7 @@ app.factory('authFactory', function($timeout,$http,$q){
 	service.login = function(){
 		var defd = $q.defer();
 		service.ref.authWithOAuthPopup("twitter",function(error, authData) {
-			 $http.post('/api/tokens?accessToken='+authData.twitter.accessToken+'&accessTokenSecret='+authData.twitter.accessTokenSecret).then(function(data){
+			 $http.post('/api/tokens?username=' +authData.twitter.username+ '&accessToken='+authData.twitter.accessToken+'&accessTokenSecret='+authData.twitter.accessTokenSecret).then(function(data){
 			 	defd.resolve(data)
 			 }, function(val){
 			 	defd.reject(val)
